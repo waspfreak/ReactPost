@@ -15,7 +15,8 @@ class Post extends Component {
   }
 
   async componentDidMount() {
-    if (!!this.state.user && !!this.state.comments) return this.setState({loading: false})
+    if (!!this.state.user && !!this.state.comments) return this.setState({loading: false});
+
     const [
       user,
       comments,
@@ -30,6 +31,7 @@ class Post extends Component {
       comments: comments || this.state.comments,
     })
   }
+
   render() {
     return(
       <article id={`post-${this.props.id}`}>
@@ -39,7 +41,7 @@ class Post extends Component {
         <p>
           {this.props.body}
         </p>
-        {this.props.loading && (
+        {!this.state.loading && (
           <div>
             <Link to={`/user/${this.state.user.id}`}>
               {this.state.user.name}

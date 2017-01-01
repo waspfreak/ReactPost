@@ -838,12 +838,18 @@
 	 * will remain to ensure logic does not differ in production.
 	 */
 
-	function invariant(condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
+	var validateFormat = function validateFormat(format) {};
+
+	if (process.env.NODE_ENV !== 'production') {
+	  validateFormat = function validateFormat(format) {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
 	    }
-	  }
+	  };
+	}
+
+	function invariant(condition, format, a, b, c, d, e, f) {
+	  validateFormat(format);
 
 	  if (!condition) {
 	    var error;
@@ -23523,6 +23529,10 @@
 
 	  // Public interface
 
+	  var createHref = function createHref(location) {
+	    return basename + (0, _PathUtils.createPath)(location);
+	  };
+
 	  var push = function push(path, state) {
 	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : void 0;
 
@@ -23532,16 +23542,16 @@
 	    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
 	      if (!ok) return;
 
-	      var url = basename + (0, _PathUtils.createPath)(location);
+	      var href = createHref(location);
 	      var key = location.key;
 	      var state = location.state;
 
 
 	      if (canUseHistory) {
-	        globalHistory.pushState({ key: key, state: state }, null, url);
+	        globalHistory.pushState({ key: key, state: state }, null, href);
 
 	        if (forceRefresh) {
-	          window.location.href = url;
+	          window.location.href = href;
 	        } else {
 	          var prevIndex = allKeys.indexOf(history.location.key);
 	          var nextKeys = allKeys.slice(0, prevIndex === -1 ? 0 : prevIndex + 1);
@@ -23554,7 +23564,7 @@
 	      } else {
 	        process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(state === undefined, 'Browser history cannot push state in browsers that do not support HTML5 history') : void 0;
 
-	        window.location.href = url;
+	        window.location.href = href;
 	      }
 	    });
 	  };
@@ -23568,16 +23578,16 @@
 	    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
 	      if (!ok) return;
 
-	      var url = basename + (0, _PathUtils.createPath)(location);
+	      var href = createHref(location);
 	      var key = location.key;
 	      var state = location.state;
 
 
 	      if (canUseHistory) {
-	        globalHistory.replaceState({ key: key, state: state }, null, url);
+	        globalHistory.replaceState({ key: key, state: state }, null, href);
 
 	        if (forceRefresh) {
-	          window.location.replace(url);
+	          window.location.replace(href);
 	        } else {
 	          var prevIndex = allKeys.indexOf(history.location.key);
 
@@ -23588,7 +23598,7 @@
 	      } else {
 	        process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(state === undefined, 'Browser history cannot replace state in browsers that do not support HTML5 history') : void 0;
 
-	        window.location.replace(url);
+	        window.location.replace(href);
 	      }
 	    });
 	  };
@@ -23657,6 +23667,7 @@
 	    length: globalHistory.length,
 	    action: 'POP',
 	    location: initialLocation,
+	    createHref: createHref,
 	    push: push,
 	    replace: replace,
 	    go: go,
@@ -24832,6 +24843,10 @@
 
 	  // Public interface
 
+	  var createHref = function createHref(location) {
+	    return '#' + encodePath(basename + (0, _PathUtils.createPath)(location));
+	  };
+
 	  var push = function push(path, state) {
 	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(state === undefined, 'Hash history cannot push state; it is ignored') : void 0;
 
@@ -24958,6 +24973,7 @@
 	    length: globalHistory.length,
 	    action: 'POP',
 	    location: initialLocation,
+	    createHref: createHref,
 	    push: push,
 	    replace: replace,
 	    go: go,
@@ -25065,6 +25081,8 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
+	var _PathUtils = __webpack_require__(201);
+
 	var _LocationUtils = __webpack_require__(198);
 
 	var _createTransitionManager = __webpack_require__(202);
@@ -25111,6 +25129,8 @@
 	  });
 
 	  // Public interface
+
+	  var createHref = _PathUtils.createPath;
 
 	  var push = function push(path, state) {
 	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : void 0;
@@ -25204,6 +25224,7 @@
 	    location: entries[index],
 	    index: index,
 	    entries: entries,
+	    createHref: createHref,
 	    push: push,
 	    replace: replace,
 	    go: go,
@@ -25387,11 +25408,11 @@
 
 	var _Post2 = _interopRequireDefault(_Post);
 
-	var _Profile = __webpack_require__(224);
+	var _Profile = __webpack_require__(225);
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _Error = __webpack_require__(225);
+	var _Error = __webpack_require__(226);
 
 	var _Error2 = _interopRequireDefault(_Error);
 
@@ -25466,6 +25487,8 @@
 	      posts: [],
 	      loading: true
 	    };
+
+	    this.handleScroll = this.handleScroll.bind(this);
 	  }
 
 	  componentDidMount() {
@@ -25479,7 +25502,42 @@
 	        page: _this.state.page + 1,
 	        loading: false
 	      });
+
+	      window.addEventListener('scroll', _this.handleScroll);
 	    })();
+	  }
+
+	  componentWillUnmount() {
+	    window.removeEventListener('scroll', this.handleScroll);
+	  }
+
+	  handleScroll(event) {
+	    var _this2 = this;
+
+	    if (this.state.loading) return null;
+
+	    const scrolled = window.scrollY;
+	    const viewportHeight = window.innerHeight;
+	    const fullHeight = document.body.clientHeight;
+
+	    if (!(scrolled + viewportHeight + 300 >= fullHeight)) {
+	      return null;
+	    }
+
+	    this.setState({ loading: true }, _asyncToGenerator(function* () {
+	      try {
+	        const posts = yield _api2.default.posts.getList(_this2.state.page);
+
+	        _this2.setState({
+	          posts: _this2.state.posts.concat(posts),
+	          page: _this2.state.page + 1,
+	          loading: false
+	        });
+	      } catch (error) {
+	        console.error(error);
+	        _this2.setState({ loading: false });
+	      }
+	    }));
 	  }
 	  render() {
 	    return _react2.default.createElement(
@@ -25542,6 +25600,7 @@
 
 	    return _asyncToGenerator(function* () {
 	      if (!!_this.state.user && !!_this.state.comments) return _this.setState({ loading: false });
+
 	      const [user, comments] = yield Promise.all([!_this.state.user ? _api2.default.users.getSingle(_this.props.userId) : Promise.resolve(null), !_this.state.comments ? _api2.default.posts.getComments(_this.props.userId) : Promise.resolve(null)]);
 
 	      _this.setState({
@@ -25551,6 +25610,7 @@
 	      });
 	    })();
 	  }
+
 	  render() {
 	    return _react2.default.createElement(
 	      'article',
@@ -25571,7 +25631,7 @@
 	        null,
 	        this.props.body
 	      ),
-	      this.props.loading && _react2.default.createElement(
+	      !this.state.loading && _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
@@ -26192,6 +26252,10 @@
 
 	var _Loading2 = _interopRequireDefault(_Loading);
 
+	var _Comment = __webpack_require__(224);
+
+	var _Comment2 = _interopRequireDefault(_Comment);
+
 	var _api = __webpack_require__(219);
 
 	var _api2 = _interopRequireDefault(_api);
@@ -26239,7 +26303,12 @@
 	      _react2.default.createElement(_Post2.default, _extends({}, this.state.post, {
 	        user: this.state.user,
 	        comments: this.state.comments
-	      }))
+	      })),
+	      _react2.default.createElement(
+	        'section',
+	        null,
+	        this.state.comments.map(comment => _react2.default.createElement(_Comment2.default, _extends({ key: comment.id }, comment)))
+	      )
 	    );
 	  }
 	}
@@ -26248,6 +26317,47 @@
 
 /***/ },
 /* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function Comment(props) {
+	  return _react2.default.createElement(
+	    'article',
+	    { id: `comment-${ props.id }` },
+	    _react2.default.createElement(
+	      'div',
+	      null,
+	      'By: ',
+	      _react2.default.createElement(
+	        'a',
+	        { href: `mailto:${ props.emial }` },
+	        ' ',
+	        props.name
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      props.body
+	    )
+	  );
+	}
+
+	exports.default = Comment;
+
+/***/ },
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26368,7 +26478,7 @@
 	exports.default = Profile;
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
