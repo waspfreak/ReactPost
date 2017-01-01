@@ -25404,17 +25404,21 @@
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _Post = __webpack_require__(223);
+	var _Post = __webpack_require__(229);
 
 	var _Post2 = _interopRequireDefault(_Post);
 
-	var _Profile = __webpack_require__(225);
+	var _Profile = __webpack_require__(231);
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _Error = __webpack_require__(226);
+	var _Error = __webpack_require__(232);
 
 	var _Error2 = _interopRequireDefault(_Error);
+
+	var _Header = __webpack_require__(233);
+
+	var _Header2 = _interopRequireDefault(_Header);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25422,6 +25426,7 @@
 	  return _react2.default.createElement(
 	    'main',
 	    { role: 'application' },
+	    _react2.default.createElement(_Header2.default, null),
 	    _react2.default.createElement(_reactRouter.Match, {
 	      pattern: '/',
 	      exactly: true,
@@ -25466,13 +25471,17 @@
 
 	var _Post2 = _interopRequireDefault(_Post);
 
-	var _Loading = __webpack_require__(222);
+	var _Loading = __webpack_require__(226);
 
 	var _Loading2 = _interopRequireDefault(_Loading);
 
 	var _api = __webpack_require__(219);
 
 	var _api2 = _interopRequireDefault(_api);
+
+	var _Page = __webpack_require__(227);
+
+	var _Page2 = _interopRequireDefault(_Page);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25542,7 +25551,7 @@
 	  render() {
 	    return _react2.default.createElement(
 	      'section',
-	      { name: 'Home' },
+	      { name: 'Home', className: _Page2.default.section },
 	      _react2.default.createElement(
 	        'h1',
 	        null,
@@ -25550,7 +25559,7 @@
 	      ),
 	      _react2.default.createElement(
 	        'section',
-	        null,
+	        { className: _Page2.default.list },
 	        this.state.loading && _react2.default.createElement(_Loading2.default, null),
 	        this.state.posts.map(post => _react2.default.createElement(_Post2.default, _extends({ key: post.id }, post)))
 	      )
@@ -25579,6 +25588,10 @@
 	var _api = __webpack_require__(219);
 
 	var _api2 = _interopRequireDefault(_api);
+
+	var _Post = __webpack_require__(222);
+
+	var _Post2 = _interopRequireDefault(_Post);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25614,13 +25627,13 @@
 	  render() {
 	    return _react2.default.createElement(
 	      'article',
-	      { id: `post-${ this.props.id }` },
+	      { id: `post-${ this.props.id }`, className: _Post2.default.post },
 	      _react2.default.createElement(
 	        _reactRouter.Link,
 	        { to: `/posts/${ this.props.id }` },
 	        _react2.default.createElement(
 	          'h2',
-	          null,
+	          { className: _Post2.default.title },
 	          ' ',
 	          this.props.title,
 	          ' '
@@ -25628,12 +25641,12 @@
 	      ),
 	      _react2.default.createElement(
 	        'p',
-	        null,
+	        { className: _Post2.default.body },
 	        this.props.body
 	      ),
 	      !this.state.loading && _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: _Post2.default.meta },
 	        _react2.default.createElement(
 	          _reactRouter.Link,
 	          { to: `/user/${ this.state.user.id }` },
@@ -25641,7 +25654,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'span',
-	          null,
+	          { className: _Post2.default.comments },
 	          'hay ',
 	          this.state.comments.length,
 	          ' comentarios'
@@ -26202,6 +26215,16 @@
 
 /***/ },
 /* 222 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+	module.exports = {"post":"KE9W3OdH6xQ4bvE_SDR3N","title":"_3z7q3V-iV6Lqo3wkhbuFCK","meta":"_21QO-wFIO1yralYTO7p9Kw"};
+
+/***/ },
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26227,7 +26250,15 @@
 	exports.default = Loading;
 
 /***/ },
-/* 223 */
+/* 227 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+	module.exports = {"section":"_2PgnXLPoJEbnMchVf5ngw_","list":"_1v0lT1nRHy-Q-5frV4ubK-","main":"_2tydMQZaicsgeDeNcDGdmT","field":"_3fVuJgn2Jlg0_nNckXdgye","appear":"_2Enpi5L-DqMHQcsVagZ7Fz","appearActive":"_2jaMaQyW-8FFxtUEu9AIAA","enter":"_2fsgpWELOlXZWTOZlT_i4x","enterActive":"z7WegBj-nHNf2P3BhYkwx","leave":"_2AmpLdqNgp7tW6Xg4c1S8s","leaveActive":"_2zFlp8o5rKg7SccfESqGnt"};
+
+/***/ },
+/* 228 */,
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26248,17 +26279,21 @@
 
 	var _Post2 = _interopRequireDefault(_Post);
 
-	var _Loading = __webpack_require__(222);
+	var _Loading = __webpack_require__(226);
 
 	var _Loading2 = _interopRequireDefault(_Loading);
 
-	var _Comment = __webpack_require__(224);
+	var _Comment = __webpack_require__(230);
 
 	var _Comment2 = _interopRequireDefault(_Comment);
 
 	var _api = __webpack_require__(219);
 
 	var _api2 = _interopRequireDefault(_api);
+
+	var _Page = __webpack_require__(227);
+
+	var _Page2 = _interopRequireDefault(_Page);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26299,7 +26334,7 @@
 	    }
 	    return _react2.default.createElement(
 	      'section',
-	      { name: 'Post' },
+	      { name: 'Post', className: _Page2.default.section },
 	      _react2.default.createElement(_Post2.default, _extends({}, this.state.post, {
 	        user: this.state.user,
 	        comments: this.state.comments
@@ -26316,7 +26351,7 @@
 	exports.default = Post;
 
 /***/ },
-/* 224 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26357,7 +26392,7 @@
 	exports.default = Comment;
 
 /***/ },
-/* 225 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26378,7 +26413,7 @@
 
 	var _Post2 = _interopRequireDefault(_Post);
 
-	var _Loading = __webpack_require__(222);
+	var _Loading = __webpack_require__(226);
 
 	var _Loading2 = _interopRequireDefault(_Loading);
 
@@ -26478,7 +26513,7 @@
 	exports.default = Profile;
 
 /***/ },
-/* 226 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26515,6 +26550,57 @@
 	}
 
 	exports.default = Error404;
+
+/***/ },
+/* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(178);
+
+	var _Header = __webpack_require__(234);
+
+	var _Header2 = _interopRequireDefault(_Header);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function Header() {
+	  return _react2.default.createElement(
+	    'header',
+	    { className: _Header2.default.header },
+	    _react2.default.createElement(
+	      'h1',
+	      null,
+	      'Post Page use React'
+	    ),
+	    _react2.default.createElement(
+	      'nav',
+	      { role: 'navigation', className: _Header2.default.navigation },
+	      _react2.default.createElement(
+	        _reactRouter.Link,
+	        { to: '/', className: _Header2.default.link },
+	        'Home'
+	      )
+	    )
+	  );
+	}
+	exports.default = Header;
+
+/***/ },
+/* 234 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+	module.exports = {"header":"_3WPHw-EQIKAg90iPBJQQdD","title":"_1WZxWYFLls2fWX6WkPN4Pl","navigation":"_2XIaaXO0sWdJCG6ITDcBqk","link":"_1SSczhBXMvBYvyLGs2RY_X"};
 
 /***/ }
 /******/ ]);
